@@ -74,6 +74,6 @@ public class ORUTests
     public void Test_GetValues_Level_2()
     {
         var values = _hl7Message.GetValues("OBX", 3, 1);
-        values.Should().BeEquivalentTo(["CREATININE", "LIPID PROFILE"]);
+        values.Should().BeEquivalentTo(["wbc", "neutros", "lymphs", "monos", "eo", "baso", "ig", "rbc", "hgb", "hct", "mcv", "mch", "mchc", "plt"]);
     }
 }

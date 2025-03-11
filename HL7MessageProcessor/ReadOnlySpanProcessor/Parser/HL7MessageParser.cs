@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace HL7MessageProcessor.ReadOnlySpanProcessor
+﻿namespace HL7MessageProcessor.ReadOnlySpanProcessor
 {
 
     /// <summary>
@@ -22,13 +20,14 @@ namespace HL7MessageProcessor.ReadOnlySpanProcessor
         {
             while (!message.IsEmpty)
             {
-                // Find the next segment boundary (\r or \n)
-                int lineBreakPos = message.IndexOfAny('\r', '\n');
+                // Find the next segment boundary (`\r`, `\n`, or `\r\n`)
+                int lineBreakPos = FindNextLineBreak(message, out int skipLength);
+                var segment = TrimLeadingNewlines(message[..lineBreakPos]);
 
                 // Check if the segment matches the requested name (e.g., "PID")
                 if (message.StartsWith(segmentName))
                 {
-                    return ExtractElementValue(message[..lineBreakPos], msh, elementIndex, componentIndex, subComponentIndex).ToString();
+                    return ExtractElementValue(segment, msh, elementIndex, componentIndex, subComponentIndex).ToString();
                 }
 
                 // Stop if no more segments exist
@@ -38,7 +37,7 @@ namespace HL7MessageProcessor.ReadOnlySpanProcessor
                 }
 
                 // Move to the next segment after the line break
-                message = message.Slice(lineBreakPos + 1);
+                message = message.Slice(lineBreakPos + skipLength);
             }
 
             return string.Empty;
@@ -53,16 +52,17 @@ namespace HL7MessageProcessor.ReadOnlySpanProcessor
 
             while (!message.IsEmpty)
             {
-                // Find the next segment boundary (\r or \n)
-                int lineBreakPos = message.IndexOfAny('\r', '\n');
+                // Find the next segment boundary (`\r`, `\n`, or `\r\n`)
+                int lineBreakPos = FindNextLineBreak(message, out int skipLength);
+                var segment = TrimLeadingNewlines(message[..lineBreakPos]);
 
                 // Check if the segment matches the requested name (e.g., "OBR")
-                if (message.StartsWith(segmentName))
+                if (segment.StartsWith(segmentName))
                 {
-                    var segment = ExtractElementValue(message[..lineBreakPos], msh, elementIndex, componentIndex, subComponentIndex).ToString();
-                    if (!string.IsNullOrEmpty(segment))
+                    var segmentValue = ExtractElementValue(segment, msh, elementIndex, componentIndex, subComponentIndex).ToString();
+                    if (!string.IsNullOrEmpty(segmentValue))
                     {
-                        values.Add(segment);
+                        values.Add(segmentValue);
                     }
                 }
 
@@ -73,7 +73,7 @@ namespace HL7MessageProcessor.ReadOnlySpanProcessor
                 }
 
                 // Move to the next segment after the line break
-                message = message.Slice(lineBreakPos + 1);
+                message = message.Slice(lineBreakPos + skipLength);
             }
 
             return values;
@@ -175,6 +175,29 @@ namespace HL7MessageProcessor.ReadOnlySpanProcessor
             return string.Empty;
         }
 
+        private static int FindNextLineBreak(ReadOnlySpan<char> message, out int skipLength)
+        {
+            int lineBreakPos = message.IndexOfAny('\r', '\n');
+
+            if (lineBreakPos == -1)
+            {
+                skipLength = 0;
+                return message.Length; // If no line break found, return the entire message
+            }
+
+            // Detect `\r\n` and skip both characters
+            if (message.Length > lineBreakPos + 1 && message[lineBreakPos] == '\r' && message[lineBreakPos + 1] == '\n')
+            {
+                skipLength = 2; // Skip `\r\n`
+            }
+            else
+            {
+                skipLength = 1; // Skip `\r` or `\n`
+            }
+
+            return lineBreakPos;
+        }
+
         private static ReadOnlySpan<char> TrimSeparators(ReadOnlySpan<char> value, HL7MessageHeader msh)
         {
             Span<char> separators = [msh.ComponentSeparator[0], msh.SubComponentSeparator[0]];
@@ -182,6 +205,15 @@ namespace HL7MessageProcessor.ReadOnlySpanProcessor
             int separatorPos = value.IndexOfAny(separators);
 
             return separatorPos > 0 ? value[..separatorPos] : value;
+        }
+
+        private static ReadOnlySpan<char> TrimLeadingNewlines(ReadOnlySpan<char> line)
+        {
+            while (!line.IsEmpty && (line[0] == '\r' || line[0] == '\n'))
+            {
+                line = line.Slice(1);
+            }
+            return line;
         }
     }
 }

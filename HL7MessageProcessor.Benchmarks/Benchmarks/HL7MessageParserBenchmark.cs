@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using HL7MessageProcessor;
 using HL7MessageProcessor.ReadOnlySpanProcessor;
 
 namespace HL7MessageProcessorBenchmark;
@@ -95,5 +96,13 @@ public class HL7MessageParserBenchmark
         {
             hl7Message.GetValue("PID", 3, 4, 2);
         }
+    }
+
+    [Benchmark]
+    public void GetValues_Level_1()
+    {
+        var hl7Message = new HL7Message(_message);
+
+        var values = hl7Message.GetValues("OBR", 4);
     }
 }

@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HL7MessageProcessor.Benchmarks", "HL7MessageProcessor.Benchmarks\HL7MessageProcessor.Benchmarks.csproj", "{4CDBC7E8-AC7B-4995-B33B-EC79E2F44D71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HL7MessageProcessor", "HL7MessageProcessor\HL7MessageProcessor.csproj", "{A1F40B38-2104-444A-873A-F28DB0F05760}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AC686C35-6F11-4CFB-8E28-25A8F864DE24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{2D057EFD-03F4-49A6-8835-56C20CB87154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HL7MessageProcessor.Tests", "HL7MessageProcessor.Tests\HL7MessageProcessor.Tests.csproj", "{0F46BF46-7081-4705-BE1F-068F96288291}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CDBC7E8-AC7B-4995-B33B-EC79E2F44D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CDBC7E8-AC7B-4995-B33B-EC79E2F44D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CDBC7E8-AC7B-4995-B33B-EC79E2F44D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CDBC7E8-AC7B-4995-B33B-EC79E2F44D71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1F40B38-2104-444A-873A-F28DB0F05760}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1F40B38-2104-444A-873A-F28DB0F05760}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1F40B38-2104-444A-873A-F28DB0F05760}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1F40B38-2104-444A-873A-F28DB0F05760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F46BF46-7081-4705-BE1F-068F96288291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F46BF46-7081-4705-BE1F-068F96288291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F46BF46-7081-4705-BE1F-068F96288291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F46BF46-7081-4705-BE1F-068F96288291}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4CDBC7E8-AC7B-4995-B33B-EC79E2F44D71} = {2D057EFD-03F4-49A6-8835-56C20CB87154}
+		{A1F40B38-2104-444A-873A-F28DB0F05760} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0F46BF46-7081-4705-BE1F-068F96288291} = {AC686C35-6F11-4CFB-8E28-25A8F864DE24}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7AE4598C-8788-4B34-A74B-7AF8F9296B61}
+	EndGlobalSection
+EndGlobal
